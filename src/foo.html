@@ -1,0 +1,12 @@
+<html><body><script>
+    WebAssembly.instantiateStreaming(
+      fetch('./main.wasm'), {
+        imports: {
+          console_log: (x) => console.log(x),
+        }
+      })
+      .then(wasm => {
+        var sayFive = wasm.instance.exports.sayFive;
+        sayFive();
+      });
+</script></body></html>

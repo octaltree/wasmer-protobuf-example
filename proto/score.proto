@@ -1,0 +1,18 @@
+syntax = "proto3";
+package score;
+
+service Score {
+    rpc Score(Candidates) returns (Scores);
+}
+
+message Candidate {
+  string value = 1;
+}
+
+message Candidates {
+  repeated Candidate candidates = 1;
+}
+
+message Scores {
+  repeated sint32 scores = 1;
+}

@@ -14,10 +14,22 @@ path = "src/server.rs"
 name = "helloworld-client"
 path = "src/client.rs"
 
+[[bin]]
+name = "host"
+path = "src/host.rs"
+
 [dependencies]
 tonic = "0.4"
-prost = "0.7"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+
+prost = "0.7.0"
+prost-types = "0.7.0"
+
+wasmer = "1.0.2"
+wasmer-compiler-llvm = "1.0.2"
+wasmer-engine-jit = "1.0.2"
+wasmer-engine-native = "1.0.2"
+
 
 [build-dependencies]
 tonic-build = "0.4"

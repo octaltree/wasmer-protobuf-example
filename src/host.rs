@@ -1,3 +1,6 @@
+#![feature(test)]
+extern crate test;
+
 use wasmer::{
     imports, wat2wasm, Array, Bytes, Instance, Module, NativeFunc, Pages, Store, WasmPtr
 };
@@ -11,6 +14,12 @@ mod score {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let instance = initialize()?;
+    run(&instance)?;
+    Ok(())
+}
+
+fn initialize() -> Result<Instance, Box<dyn std::error::Error>> {
     // Let's declare the Wasm module.
     //
     // We are using the text representation of the module here but you can also load `.wasm`
@@ -44,31 +53,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Instantiating module...");
     // Let's instantiate the Wasm module.
     let instance = Instance::new(&module, &import_object)?;
+    Ok(instance)
+}
 
-    // We now have an instance ready to be used.
-    //
-    // From an `Instance` we can retrieve any exported entities.
-    // Each of these entities is covered in others examples.
-    //
-    // Here we are retrieving the exported function. We won't go into details here
-    // as the main focus of this example is to show how to create an instance out
-    // of a Wasm module and have basic interactions with it.
-    // let add_one = instance
-    //    .exports
-    //    .get_function("add_one")?
-    //    .native::<i32, i32>()?;
-
-    // let memory = instance.exports.get_memory("memory")?;
-
-    // assert_eq!(memory.size(), Pages::from(1));
-    // assert_eq!(memory.size().bytes(), Bytes::from(65536 as usize));
-    // assert_eq!(memory.data_size(), 65536);
-
-    // println!("Calling `add_one` function...");
-    // let result = add_one.call(1)?;
-
-    // println!("Results of `add_one`: {:?}", result);
-    // assert_eq!(result, 2);
+fn run(instance: &Instance) -> Result<(), Box<dyn std::error::Error>> {
     let alloc = instance
         .exports
         .get_function("alloc")?
@@ -89,12 +77,23 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     let x = foo.call(ptr.offset(), 4)?;
     assert_eq!(x, 6);
-    // let x = foo.call(addr, 4)?;
-    // assert_eq!(x, 3);
-    // free.call(addr, 3)?;
-
     Ok(())
 }
 
-#[test]
-fn test_exported_function() -> Result<(), Box<dyn std::error::Error>> { main() }
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use test::test::Bencher;
+
+    #[test]
+    fn test_exported_function() -> Result<(), Box<dyn std::error::Error>> { main() }
+
+    #[bench]
+    fn bench_main(b: &mut Bencher) { b.iter(|| main()); }
+
+    #[bench]
+    fn bench_run(b: &mut Bencher) {
+        let instance = initialize().unwrap();
+        b.iter(|| run(&instance).unwrap());
+    }
+}

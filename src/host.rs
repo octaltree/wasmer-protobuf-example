@@ -26,7 +26,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //  (export "add_one" (func $add_one_f)))
     //"#
     //    )?;
-    let wasm_bytes = include_bytes!("../guest.wasm");
+    let wasm_bytes = include_bytes!("../guest/target/wasm32-unknown-unknown/release/guest.wasm");
 
     // Create a Store.
     // Note that we don't need to specify the engine/compiler if we want to use

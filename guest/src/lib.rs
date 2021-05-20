@@ -1,5 +1,3 @@
-#![no_main]
-
 //#[no_mangle]
 // pub fn score(a: String) -> String { a }
 

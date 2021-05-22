@@ -13,7 +13,7 @@ wasmerで使うのでllvm等必要かもしれない
 wasmerでwasm動かしてmemory上でprotobufをやりとりする
 
 ## ベンチマーク
-Ryzen 7 3750U
+Ryzen 7 PRO 4750U
 ```
 $ cargo bench
 $ hyperfine 'luajit src/foo.lua'

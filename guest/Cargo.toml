@@ -2,6 +2,7 @@
 name = "guest"
 version = "0.1.0"
 edition = "2018"
+build = "src/build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -9,3 +10,8 @@ edition = "2018"
 crate-type = [ "cdylib" ]
 
 [dependencies]
+prost = "0.7.0"
+prost-types = "0.7.0"
+
+[build-dependencies]
+prost-build = "0.7.0"

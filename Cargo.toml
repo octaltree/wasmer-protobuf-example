@@ -6,14 +6,6 @@ build = "src/build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[[bin]] # Bin to run the HelloWorld gRPC server
-name = "helloworld-server"
-path = "src/server.rs"
-
-[[bin]] # Bin to run the HelloWorld gRPC client
-name = "helloworld-client"
-path = "src/client.rs"
-
 [[bin]]
 name = "host"
 path = "src/host.rs"
@@ -29,7 +21,12 @@ wasmer = "1.0.2"
 wasmer-compiler-llvm = "1.0.2"
 wasmer-engine-jit = "1.0.2"
 wasmer-engine-native = "1.0.2"
+bytes = "1.0.1"
 
 
 [build-dependencies]
 tonic-build = "0.4"
+
+[[bin]]
+name = "foo"
+path = "src/foo.rs"

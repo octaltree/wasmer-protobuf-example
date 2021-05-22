@@ -7,13 +7,9 @@ neovimのfuzzy finderを念頭に大量の文字列を送り簡単な純粋な�
 wasmerで使うのでllvm等必要かもしれない
 
 ## 構成
-* helloworld-server
-* helloworld-client
-* proto/helloworld.proto
-tonicによるgrpc exampleそのままベンチマークには関係ない
+* src/host.rs
+* guest/src/lib.r
 
-* host
-* guest.wasm
 wasmerでwasm動かしてmemory上でprotobufをやりとりする
 
 ## ベンチマーク

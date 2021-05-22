@@ -8,7 +8,7 @@ wasmerで使うのでllvm等必要かもしれない
 
 ## 構成
 * src/host.rs
-* guest/src/lib.r
+* guest/src/lib.rs
 
 wasmerでwasm動かしてmemory上でprotobufをやりとりする
 

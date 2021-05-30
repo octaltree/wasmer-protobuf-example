@@ -14,7 +14,7 @@ pub unsafe fn free(x: u64) {
 
 #[no_mangle]
 pub fn score(x: u64) -> u64 {
-    f(x, |candidates: score::Candidates| -> score::Scores {
+    pmap(x, |candidates: score::Candidates| -> score::Scores {
         score::Scores {
             scores: candidates
                 .candidates
@@ -60,7 +60,7 @@ mod score {
     include!(concat!(env!("OUT_DIR"), "/score.rs"));
 }
 
-fn f<T, U>(ptr: u64, f: impl Fn(T) -> U) -> u64
+fn pmap<T, U>(ptr: u64, f: impl Fn(T) -> U) -> u64
 where
     T: Message + Default,
     U: Message + Default

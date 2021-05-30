@@ -14,27 +14,18 @@ pub unsafe fn free(x: u64) {
 
 #[no_mangle]
 pub fn score(x: u64) -> u64 {
-    let candidates = {
-        let (ptr, len) = unsafe { deserialize_ptr(x) };
-        let vec: Vec<u8> = unsafe { to_bytes(ptr, len) };
-        <score::Candidates as Message>::decode(&*vec).unwrap()
-    };
-    let scores = score::Scores {
-        scores: candidates
-            .candidates
-            .into_iter()
-            .map(|candidate| {
-                // calc score of candidate with some other context
-                candidate.value.chars().count() as i32
-            })
-            .collect()
-    };
-    {
-        let mut buf = Vec::<u8>::with_capacity(scores.encoded_len());
-        scores.encode(&mut buf).unwrap();
-        let (ptr, len) = unsafe { from_bytes(buf) };
-        unsafe { serialize_ptr(ptr, len) }
-    }
+    f(x, |candidates: score::Candidates| -> score::Scores {
+        score::Scores {
+            scores: candidates
+                .candidates
+                .into_iter()
+                .map(|candidate| {
+                    // calc score of candidate with some other context
+                    candidate.value.chars().count() as i32
+                })
+                .collect()
+        }
+    })
 }
 
 unsafe fn serialize_ptr(offset: *mut u8, len: usize) -> u64 {
@@ -67,4 +58,23 @@ unsafe fn from_bytes(vec: Vec<u8>) -> (*mut u8, usize) {
 
 mod score {
     include!(concat!(env!("OUT_DIR"), "/score.rs"));
+}
+
+fn f<T, U>(ptr: u64, f: impl Fn(T) -> U) -> u64
+where
+    T: Message + Default,
+    U: Message + Default
+{
+    let t: T = {
+        let (ptr, len) = unsafe { deserialize_ptr(ptr) };
+        let vec: Vec<u8> = unsafe { to_bytes(ptr, len) };
+        <T as Message>::decode(&*vec).unwrap()
+    };
+    let u = f(t);
+    {
+        let mut buf = Vec::<u8>::with_capacity(u.encoded_len());
+        u.encode(&mut buf).unwrap();
+        let (ptr, len) = unsafe { from_bytes(buf) };
+        unsafe { serialize_ptr(ptr, len) }
+    }
 }

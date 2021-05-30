@@ -26,7 +26,3 @@ bytes = "1.0.1"
 
 [build-dependencies]
 tonic-build = "0.4"
-
-[[bin]]
-name = "foo"
-path = "src/foo.rs"

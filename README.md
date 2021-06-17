@@ -88,3 +88,5 @@ Benchmark #1: luajit src/foo.lua
   Time (mean ± σ):      34.5 ms ±  16.5 ms    [User: 33.6 ms, System: 1.1 ms]
   Range (min … max):    19.2 ms …  60.2 ms    53 runs
 ```
+
+計算用途のちゃんとしたベンチはHideyuki Tanakaさんの https://zenn.dev/tanakh/articles/wasm-benchmark

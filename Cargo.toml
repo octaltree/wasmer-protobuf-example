@@ -11,18 +11,16 @@ name = "host"
 path = "src/host.rs"
 
 [dependencies]
-tonic = "0.4"
-tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
-
+tokio = { version = "1.7.0", features = ["macros", "rt-multi-thread"] }
+tonic = "0.4.3"
 prost = "0.7.0"
 prost-types = "0.7.0"
-
-wasmer = "1.0.2"
-wasmer-compiler-llvm = "1.0.2"
-wasmer-engine-jit = "1.0.2"
-wasmer-engine-native = "1.0.2"
 bytes = "1.0.1"
+
+wasmer = "2.0.0"
+wasmer-compiler-llvm = "2.0.0"
+wasmer-engine-universal = "2.0.0"
 
 
 [build-dependencies]
-tonic-build = "0.4"
+tonic-build = "0.4.2"

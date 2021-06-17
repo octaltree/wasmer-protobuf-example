@@ -5,7 +5,7 @@ use wasmer::{
     imports, wat2wasm, Array, Bytes, Instance, Memory, Module, NativeFunc, Pages, Store, WasmPtr
 };
 use wasmer_compiler_llvm::LLVM;
-use wasmer_engine_jit::JIT;
+use wasmer_engine_universal::Universal;
 // use wasmer_engine_native::Native;
 use bytes::buf::{Buf, BufMut};
 use core::cell::Cell;
@@ -16,7 +16,7 @@ mod score {
     tonic::include_proto!("score");
 }
 
-const N: i32 = 300000;
+const N: i32 = 300;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let instance = initialize()?;
@@ -46,7 +46,7 @@ fn initialize() -> Result<Instance, Box<dyn std::error::Error>> {
     // Note that we don't need to specify the engine/compiler if we want to use
     // the default provided by Wasmer.
     // You can use `Store::default()` for that.
-    let store = Store::new(&JIT::new(LLVM::default()).engine());
+    let store = Store::new(&Universal::new(LLVM::default()).engine());
 
     println!("Compiling module...");
     // Let's compile the Wasm module.

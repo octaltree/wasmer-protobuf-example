@@ -53,3 +53,38 @@ Benchmark #1: luajit src/foo.lua
 
 luaは起動時間も入ってこの時間なのでとても速い。
 neovimにおいてluaインターフェイスはrpcより速いのでluaで書いたほうが速くなりそう。
+
+## wasmerを2.0へアップデートした
+名前が変わった以外に使用しているapiの変化はなかった
+
+N=300
+```
+running 3 tests
+test tests::bench_native  ... bench:      15,148 ns/iter (+/- 473)
+test tests::bench_native2 ... bench:       9,287 ns/iter (+/- 548)
+test tests::bench_run     ... bench:      58,692 ns/iter (+/- 3,880)
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 3 measured; 0 filtered out; finished in 3.29s
+```
+
+```
+Benchmark #1: luajit src/foo.lua
+  Time (mean ± σ):       1.5 ms ±   1.1 ms    [User: 0.8 ms, System: 1.2 ms]
+  Range (min … max):     0.0 ms …   3.7 ms    438 runs
+```
+
+N=300000
+```
+running 3 tests
+test tests::bench_native  ... bench:  21,270,387 ns/iter (+/- 556,915)
+test tests::bench_native2 ... bench:   9,295,323 ns/iter (+/- 152,776)
+test tests::bench_run     ... bench:  61,756,556 ns/iter (+/- 639,761)
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 3 measured; 0 filtered out; finished in 28.02s
+```
+
+```
+Benchmark #1: luajit src/foo.lua
+  Time (mean ± σ):      34.5 ms ±  16.5 ms    [User: 33.6 ms, System: 1.1 ms]
+  Range (min … max):    19.2 ms …  60.2 ms    53 runs
+```
